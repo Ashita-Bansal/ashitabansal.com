@@ -1,0 +1,87 @@
+/* Arcade page — builds on the tokens and components in styles.css */
+.arcade { padding-top: 64px; padding-bottom: 72px; }
+.arcade-head { margin-bottom: 36px; }
+.arcade-head h1 { margin: 10px 0 16px; font-size: clamp(36px, 6vw, 64px); max-width: none; }
+.arcade-head .lede { margin-bottom: 0; }
+.back-mobile { display: none; padding: 0 12px; text-decoration: none; font-size: 14px; }
+@media (max-width: 820px) { .back-mobile { display: inline-flex; } }
+
+.arcade-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.game-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left;
+  padding: 20px; border-radius: var(--radius); cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  font: inherit; box-shadow: var(--shadow);
+  transition: transform .2s, border-color .2s;
+}
+.game-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+.gc-icon {
+  display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 8px;
+  border-radius: 14px; background: var(--bg-2); border: 1px solid var(--border); font-size: 28px;
+  transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+}
+.game-card:hover .gc-icon { transform: rotate(-8deg) scale(1.1); }
+.gc-title { font: 600 18px var(--display); letter-spacing: -.01em; }
+.gc-blurb { font-size: 14px; color: var(--muted); line-height: 1.5; }
+.gc-best { margin-top: auto; padding-top: 10px; font: 12px var(--mono); color: var(--faint); }
+
+/* Stage */
+.stage {
+  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
+  padding: 16px; background: rgba(5, 7, 10, .7); backdrop-filter: blur(6px); animation: fade .2s ease;
+}
+.stage[hidden] { display: none; }
+.stage-box {
+  display: flex; flex-direction: column; width: min(760px, 100%); height: min(860px, 100%);
+  border-radius: 20px; border: 1px solid var(--border-strong); background: var(--surface);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .6); overflow: hidden; animation: pop .2s cubic-bezier(.2, .8, .2, 1);
+}
+.stage-bar { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.st-info { min-width: 0; flex: 1; }
+.st-info h2 { margin: 0; font-size: 18px; }
+.st-info p { margin: 2px 0 0; font-size: 12.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-scores { display: flex; gap: 16px; }
+.st-scores span { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+.st-scores small { font: 11px var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: .06em; }
+.st-scores b { font: 600 20px var(--display); font-variant-numeric: tabular-nums; }
+.st-actions { display: flex; gap: 6px; }
+
+.screen { position: relative; flex: 1; min-height: 0; display: grid; place-items: center; padding: 16px; background: var(--bg-2); }
+#st-canvas { display: block; border-radius: 12px; touch-action: none; user-select: none; -webkit-user-select: none; }
+.overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--bg-2) 55%, transparent); cursor: pointer; }
+.overlay[hidden] { display: none; }
+.ov-card {
+  max-width: 340px; padding: 26px; text-align: center; border-radius: 18px; cursor: default;
+  border: 1px solid var(--border-strong); background: var(--surface); box-shadow: var(--shadow); animation: pop .2s ease;
+}
+.ov-card h3 { margin: 0 0 8px; font-size: 24px; }
+.ov-card p { margin: 0 0 8px; color: var(--muted); font-size: 14.5px; }
+.ov-icon { font-size: 44px; margin-bottom: 6px; }
+.ov-hint { font: 12.5px var(--mono); color: var(--faint) !important; }
+.ov-score b { color: var(--text); font-size: 20px; }
+.ov-new { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-size: 12px; font-weight: 600; }
+.ov-go { margin-top: 10px; }
+
+/* Touch pad */
+.pad { display: flex; align-items: center; justify-content: center; gap: 24px; padding: 12px 16px 16px; border-top: 1px solid var(--border); user-select: none; -webkit-user-select: none; }
+.pad[hidden] { display: none; }
+.dpad { display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 48px); gap: 6px; }
+.dpad .up { grid-column: 2; grid-row: 1; }
+.dpad .left { grid-column: 1; grid-row: 2; }
+.dpad .down { grid-column: 2; grid-row: 2; }
+.dpad .right { grid-column: 3; grid-row: 2; }
+.pad-btn {
+  display: grid; place-items: center; border-radius: 12px; cursor: pointer; touch-action: none;
+  border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); font: 600 16px var(--font);
+}
+.pad-btn:active { background: var(--accent); color: var(--accent-ink); }
+.pad-btn.act { min-width: 88px; height: 72px; border-radius: 50%; }
+.pad-btn.act.wide { width: 100%; max-width: 320px; height: 64px; border-radius: 16px; }
+
+@media (max-width: 600px) {
+  .stage { padding: 0; }
+  .stage-box { width: 100%; height: 100%; border-radius: 0; border: 0; }
+  .stage-bar { padding: 10px 12px; gap: 10px; }
+  .st-info p { display: none; }
+  .screen { padding: 8px; }
+}
